@@ -1,3 +1,9 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 add3if.cu && ./a.out
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include <math.h>
 #include <stdio.h>
 

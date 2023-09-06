@@ -1,3 +1,22 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 add3memcpy.cu && ./a.out
+Time = 452.85 ms.
+Time = 248.084 ms.
+Time = 248.552 ms.
+Time = 306.566 ms.
+Time = 313.977 ms.
+Time = 314.251 ms.
+Time = 259.15 ms.
+Time = 305.955 ms.
+Time = 342.461 ms.
+Time = 316.589 ms.
+Time = 310.228 ms.
+Time = 296.581 +- 30.909 ms.
+No errors
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include "error.cuh"
 #include <math.h>
 #include <stdio.h>

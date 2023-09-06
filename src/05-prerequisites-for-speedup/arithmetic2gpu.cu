@@ -1,3 +1,26 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 arithmetic2gpu.cu && ./a.out
+Time = 0.596992 ms.
+Time = 0.584704 ms.
+Time = 0.584704 ms.
+Time = 0.584704 ms.
+Time = 0.584704 ms.
+Time = 0.584704 ms.
+Time = 0.584704 ms.
+Time = 0.58368 ms.
+Time = 0.584704 ms.
+Time = 0.58368 ms.
+Time = 0.584704 ms.
+Time = 0.584499 +- 0.00038602 ms.
+
+nvprof --unified-memory-profiling off ./a.out
+======== Warning: nvprof is not supported on devices with compute capability 8.0 and higher.
+                  Use NVIDIA Nsight Systems for GPU tracing and CPU sampling and NVIDIA Nsight Compute for GPU profiling.
+                  Refer https://developer.nvidia.com/tools-overview for more details.
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include "error.cuh"
 #include <math.h>
 #include <stdio.h>

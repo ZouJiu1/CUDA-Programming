@@ -1,4 +1,3 @@
-// nvcc -arch=compute_60 -code=sm_60  hello2.cu
 #pragma once
 #include <stdio.h>
 
@@ -17,20 +16,4 @@ do                                                    \
         exit(1);                                      \
     }                                                 \
 } while (0)
-
-#include <stdio.h>
-
-__global__ void hello_from_gpu()
-{
-    printf("Hello World from the GPU!\n");
-}
-
-int main(void)
-{
-    hello_from_gpu<<<1, 1>>>();
-    CHECK(cudaGetLastError());
-    CHECK(cudaDeviceSynchronize());
-    cudaDeviceSynchronize();
-    return 0;
-}
 

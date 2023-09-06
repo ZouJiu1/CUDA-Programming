@@ -1,3 +1,5 @@
+// g++ add.cpp && ./a.out
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>

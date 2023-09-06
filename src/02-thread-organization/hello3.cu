@@ -1,3 +1,4 @@
+// nvcc -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 hello3.cu
 #include <stdio.h>
 
 __global__ void hello_from_gpu()
@@ -11,4 +12,13 @@ int main(void)
     cudaDeviceSynchronize();
     return 0;
 }
-
+/*
+Hello World from the GPU!
+Hello World from the GPU!
+Hello World from the GPU!
+Hello World from the GPU!
+Hello World from the GPU!
+Hello World from the GPU!
+Hello World from the GPU!
+Hello World from the GPU!
+*/

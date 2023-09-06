@@ -1,3 +1,9 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 memcheck.cu && ./a.out
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include <math.h>
 #include <stdio.h>
 
@@ -48,7 +54,10 @@ int main(void)
 void __global__ add(const double *x, const double *y, double *z, const int N)
 {
     const int n = blockDim.x * blockIdx.x + threadIdx.x;
-    z[n] = x[n] + y[n];
+    if (n < N)
+    {
+        z[n] = x[n] + y[n];
+    }
 }
 
 void check(const double *z, const int N)

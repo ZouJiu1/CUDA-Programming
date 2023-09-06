@@ -1,5 +1,7 @@
 # Chapter 3 Basic framework of simple CUDA programs
 
+# [https://zhuanlan.zhihu.com/p/654349258/edit](https://zhuanlan.zhihu.com/p/654349258/edit)
+
 ## 3.1 An example: adding up two arrays
 
 We consider a simple task: adding up two arrays of the same length (same number of elements). We first write a C++ program [add.cpp](https://github.com/brucefan1983/CUDA-Programming/tree/master/src/03-basic-framework/add.cpp) solving this problem. It can be compiled by using `g++` (or `cl.exe`):

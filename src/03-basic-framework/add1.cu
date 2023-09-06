@@ -1,3 +1,7 @@
+// nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 add1.cu && ./a.out
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include <math.h>
 #include <stdio.h>
 
@@ -12,7 +16,7 @@ int main(void)
 {
     const int N = 100000000;
     const int M = sizeof(double) * N;
-    double *h_x = (double*) malloc(M);
+    double *h_x = (double *)malloc(M);
     double *h_y = (double*) malloc(M);
     double *h_z = (double*) malloc(M);
 
@@ -29,7 +33,7 @@ int main(void)
     cudaMemcpy(d_x, h_x, M, cudaMemcpyHostToDevice);
     cudaMemcpy(d_y, h_y, M, cudaMemcpyHostToDevice);
 
-    const int block_size = 128;
+    const int block_size = 16 * 16 / 2;
     const int grid_size = N / block_size;
     add<<<grid_size, block_size>>>(d_x, d_y, d_z);
 
@@ -63,4 +67,3 @@ void check(const double *z, const int N)
     }
     printf("%s\n", has_error ? "Has errors" : "No errors");
 }
-

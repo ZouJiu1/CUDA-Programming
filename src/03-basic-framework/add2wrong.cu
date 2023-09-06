@@ -1,3 +1,7 @@
+// nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 add2wrong.cu && ./a.out
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include <math.h>
 #include <stdio.h>
 
@@ -26,8 +30,8 @@ int main(void)
     cudaMalloc((void **)&d_x, M);
     cudaMalloc((void **)&d_y, M);
     cudaMalloc((void **)&d_z, M);
-    cudaMemcpy(d_x, h_x, M, cudaMemcpyDeviceToHost);
-    cudaMemcpy(d_y, h_y, M, cudaMemcpyDeviceToHost);
+    cudaMemcpy(d_x, h_x, M, cudaMemcpyDeviceToHost);   //wrong place
+    cudaMemcpy(d_y, h_y, M, cudaMemcpyDeviceToHost);   //wrong place
 
     const int block_size = 128;
     const int grid_size = N / block_size;

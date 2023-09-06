@@ -1,3 +1,7 @@
+// nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 hello5.cu //GeForce 3080
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include <stdio.h>
 
 __global__ void hello_from_gpu()
@@ -10,9 +14,29 @@ __global__ void hello_from_gpu()
 
 int main(void)
 {
-    const dim3 block_size(2, 4);
+    const dim3 block_size(3, 6);
     hello_from_gpu<<<1, block_size>>>();
     cudaDeviceSynchronize();
     return 0;
 }
 
+/*
+Hello World from block-0 and thread-(0, 0)!
+Hello World from block-0 and thread-(1, 0)!
+Hello World from block-0 and thread-(2, 0)!
+Hello World from block-0 and thread-(0, 1)!
+Hello World from block-0 and thread-(1, 1)!
+Hello World from block-0 and thread-(2, 1)!
+Hello World from block-0 and thread-(0, 2)!
+Hello World from block-0 and thread-(1, 2)!
+Hello World from block-0 and thread-(2, 2)!
+Hello World from block-0 and thread-(0, 3)!
+Hello World from block-0 and thread-(1, 3)!
+Hello World from block-0 and thread-(2, 3)!
+Hello World from block-0 and thread-(0, 4)!
+Hello World from block-0 and thread-(1, 4)!
+Hello World from block-0 and thread-(2, 4)!
+Hello World from block-0 and thread-(0, 5)!
+Hello World from block-0 and thread-(1, 5)!
+Hello World from block-0 and thread-(2, 5)!
+*/

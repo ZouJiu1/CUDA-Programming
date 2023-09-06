@@ -1,5 +1,7 @@
 # Chapter 2: Thread Organization in CUDA
 
+# [https://zhuanlan.zhihu.com/p/654187739](https://zhuanlan.zhihu.com/p/654187739)
+
 We start with the simplest CUDA program: printing a `Hello World` string from the GPU.
 
 ## 2.1 A `Hello World` Program in C++

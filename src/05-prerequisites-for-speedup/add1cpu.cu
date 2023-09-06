@@ -1,3 +1,21 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 add1cpu.cu && ./a.out
+Time = 244.885 ms.
+Time = 93.1072 ms.
+Time = 94.7384 ms.
+Time = 94.8828 ms.
+Time = 95.2146 ms.
+Time = 96.6205 ms.
+Time = 94.1804 ms.
+Time = 93.9356 ms.
+Time = 97.0496 ms.
+Time = 97.9046 ms.
+Time = 133.256 ms.
+Time = 99.089 +- 11.4765 ms.
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include "error.cuh"
 #include <math.h>
 #include <stdio.h>

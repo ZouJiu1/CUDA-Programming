@@ -1,3 +1,11 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 static.cu && ./a.out
+d_x = 1, d_y[0] = 11, d_y[1] = 21.
+h_y[0] = 11, h_y[1] = 21.
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include "error.cuh"
 #include <stdio.h>
 __device__ int d_x = 1;

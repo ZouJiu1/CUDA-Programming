@@ -1,5 +1,7 @@
 # Chapter 1: Introduction to GPU and CUDA 
 
+# [https://zhuanlan.zhihu.com/p/654249202](https://zhuanlan.zhihu.com/p/654249202)
+
 ## 1.1 Introduction to GPU 
 
 GPU means `graphics processing unit`, which is usually compared to CPU (central processing unit). While a typical CPU has a few relatively fast cores, a typical GPU has hundreds or thousands of relatively slow cores. In a CPU, more transistors are devoted to cache and control; in a GPU, more transistors are devoted to data processing. 

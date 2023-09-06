@@ -1,3 +1,23 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 query.cu && ./a.out
+Device id:                                 0
+Device name:                               NVIDIA GeForce RTX 3080
+Compute capability:                        8.6
+Amount of global memory:                   9.78326 GB
+Amount of constant memory:                 64 KB
+Maximum grid size:                         2147483647 65535 65535
+Maximum block size:                        1024 1024 64
+Number of SMs:                             68
+Maximum amount of shared memory per block: 48 KB
+Maximum amount of shared memory per SM:    100 KB
+Maximum number of registers per block:     64 K
+Maximum number of registers per SM:        64 K
+Maximum number of threads per block:       1024
+Maximum number of threads per SM:          1536
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include "error.cuh"
 #include <stdio.h>
 

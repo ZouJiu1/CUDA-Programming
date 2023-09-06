@@ -1,3 +1,9 @@
+/*
+nvcc -O3 -arch=compute_86 -code=sm_86  --ptxas-options=-v --maxrregcount=20 add4device.cu && ./a.out
+*/
+#include <cuda_runtime.h>
+#include <cuda.h>
+
 #include <math.h>
 #include <stdio.h>
 
@@ -28,6 +34,7 @@ int main(void)
     cudaMalloc((void **)&d_x, M);
     cudaMalloc((void **)&d_y, M);
     cudaMalloc((void **)&d_z, M);
+
     cudaMemcpy(d_x, h_x, M, cudaMemcpyHostToDevice);
     cudaMemcpy(d_y, h_y, M, cudaMemcpyHostToDevice);
 
