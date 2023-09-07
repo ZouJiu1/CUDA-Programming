@@ -96,11 +96,11 @@ int main(int argc, char **argv)
 
 void __global__ arithmetic(real *d_x, const real x0, const int N)
 {
-    const int n = blockDim.x * blockIdx.x + threadIdx.x;
+    const int n = blockDim.x * blockIdx.x + threadIdx.x;               //拿到线程所在全局的index标号
     if (n < N)
     {
         real x_tmp = d_x[n];
-        while (sqrt(x_tmp) < x0)
+        while (sqrt(x_tmp) < x0) 
         {
             ++x_tmp;
         }

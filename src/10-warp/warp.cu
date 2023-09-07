@@ -10,7 +10,8 @@ void __global__ test_warp_primitives(void);
 int main(int argc, char **argv)
 {
     test_warp_primitives<<<1, BLOCK_SIZE>>>();
-    CHECK(cudaDeviceSynchronize());
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 

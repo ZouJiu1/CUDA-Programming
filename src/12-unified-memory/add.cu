@@ -28,7 +28,8 @@ int main(void)
     const int grid_size = N / block_size;
     add<<<grid_size, block_size>>>(x, y, z);
 
-    CHECK(cudaDeviceSynchronize());
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     check(z, N);
 
     CHECK(cudaFree(x));

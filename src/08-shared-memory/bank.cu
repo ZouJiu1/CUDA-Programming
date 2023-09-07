@@ -112,23 +112,23 @@ void timing(const real *d_A, real *d_B, const int N, const int task)
 
 __global__ void transpose1(const real *A, real *B, const int N)
 {
-    __shared__ real S[TILE_DIM][TILE_DIM];
-    int bx = blockIdx.x * TILE_DIM;
-    int by = blockIdx.y * TILE_DIM;
+    __shared__ real S[TILE_DIM][TILE_DIM];         // 分配共享内存数组，2dim
+    int bx = blockIdx.x * TILE_DIM;                // x方向block块的起始线程地址
+    int by = blockIdx.y * TILE_DIM;                // y方向block块的起始线程地址
 
-    int nx1 = bx + threadIdx.x;
-    int ny1 = by + threadIdx.y;
-    if (nx1 < N && ny1 < N)
+    int nx1 = bx + threadIdx.x;                    // x方向线程的地址
+    int ny1 = by + threadIdx.y;                    // y方向线程的地址
+    if (nx1 < N && ny1 < N)                        // 防止x, y方向的线程地址越界
     {
-        S[threadIdx.y][threadIdx.x] = A[ny1 * N + nx1];
+        S[threadIdx.y][threadIdx.x] = A[ny1 * N + nx1];         // 赋值全局内存的数据给共享内存数据，合并的操作
     }
-    __syncthreads();
+    __syncthreads();                   // 同步每个线程块内的线程，保证共享内存已经全部update数值
 
-    int nx2 = bx + threadIdx.y;
-    int ny2 = by + threadIdx.x;
-    if (nx2 < N && ny2 < N)
+    int nx2 = bx + threadIdx.y;         //  拿到x方向的第threadIdx.y个线程坐标
+    int ny2 = by + threadIdx.x;         //  拿到y方向的第threadIdx.x个线程坐标
+    if (nx2 < N && ny2 < N)             //  防止x, y方向的线程地址越界
     {
-        B[nx2 * N + ny2] = S[threadIdx.x][threadIdx.y];
+        B[nx2 * N + ny2] = S[threadIdx.x][threadIdx.y];     //  对矩阵做转置，共享内存变量的数值赋值给全局内存，合并的
     }
 }
 

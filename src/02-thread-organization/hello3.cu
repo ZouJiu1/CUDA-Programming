@@ -9,7 +9,8 @@ __global__ void hello_from_gpu()
 int main(void)
 {
     hello_from_gpu<<<2, 4>>>();
-    cudaDeviceSynchronize();
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 /*

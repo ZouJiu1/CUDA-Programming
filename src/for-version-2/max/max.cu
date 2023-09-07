@@ -80,11 +80,13 @@ int main(void)
     find_max<<<M, 1024>>>(d_x, d_y, d_i, N);
 
     // time
-    CHECK(cudaDeviceSynchronize());
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     clock_t t1 = clock();
     find_max<<<M, 1024>>>(d_x, d_y, d_i, N);
     CHECK(cudaGetLastError());
-    CHECK(cudaDeviceSynchronize());
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     clock_t t2 = clock();
     float time_used = (t2 - t1) / float(CLOCKS_PER_SEC) * 1000.0f; // ms
     std::cout << "time used = " << time_used << " ms." << std::endl;

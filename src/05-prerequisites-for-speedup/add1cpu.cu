@@ -53,28 +53,22 @@ int main(void)
     float t2_sum = 0;
     for (int repeat = 0; repeat <= NUM_REPEATS; ++repeat)
     {
-        cudaEvent_t start, stop;
-        CHECK(cudaEventCreate(&start));
-        CHECK(cudaEventCreate(&stop));
-        CHECK(cudaEventRecord(start));
-        cudaEventQuery(start);
+        cudaEvent_t start, stop;         //定义了两个CUDA事件，start和stop，类型是cudaEvent_t
+        CHECK(cudaEventCreate(&start));   //初始化
+        CHECK(cudaEventCreate(&stop));    //初始化
+        CHECK(cudaEventRecord(start));    // record时间戳，表示code block的开始时间，之后的cudaEventRecord仅仅在WDDM模式才是必要的
+        cudaEventQuery(start); // cannot use the macro function CHECK here
 
-        add(x, y, z, N);
+        // The code block to be timed
 
-        CHECK(cudaEventRecord(stop));
-        CHECK(cudaEventSynchronize(stop));
+        CHECK(cudaEventRecord(stop)); //record时间戳，表示code block的结束时间
+        CHECK(cudaEventSynchronize(stop));   //强制host等待上面的code执行完成
         float elapsed_time;
-        CHECK(cudaEventElapsedTime(&elapsed_time, start, stop));
+        CHECK(cudaEventElapsedTime(&elapsed_time, start, stop)); //算出两者的时间间隔，ms，micro second或者1/1000秒
         printf("Time = %g ms.\n", elapsed_time);
 
-        if (repeat > 0)
-        {
-            t_sum += elapsed_time;
-            t2_sum += elapsed_time * elapsed_time;
-        }
-
-        CHECK(cudaEventDestroy(start));
-        CHECK(cudaEventDestroy(stop));
+        CHECK(cudaEventDestroy(start));   //销毁resource
+        CHECK(cudaEventDestroy(stop));    //销毁resource
     }
 
     const float t_ave = t_sum / NUM_REPEATS;

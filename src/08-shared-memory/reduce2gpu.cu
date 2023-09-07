@@ -38,46 +38,46 @@ int main(void)
 
 void __global__ reduce_global(real *d_x, real *d_y)
 {
-    const int tid = threadIdx.x;
-    real *x = d_x + blockDim.x * blockIdx.x;
-
-    for (int offset = blockDim.x >> 1; offset > 0; offset >>= 1)
+    const int tid = threadIdx.x;                       // 某个block内的线程标号 index
+    real *x = d_x + blockDim.x * blockIdx.x;           // 某个block的线程起始地址
+ 
+    for (int offset = blockDim.x >> 1; offset > 0; offset >>= 1)    //  一个block内的线程个数 / 2
     {
-        if (tid < offset)
+        if (tid < offset)                                           //  线程的标号tid要小于对应的边界offset
         {
-            x[tid] += x[tid + offset];
+            x[tid] += x[tid + offset];                              //  某个 block 内部对数组规约
         }
-        __syncthreads();
+        __syncthreads();                                            //  block 线程块内部的同步函数
     }
 
-    if (tid == 0)
-    {
-        d_y[blockIdx.x] = x[0];
+    if (tid == 0)                                           //  一个block内只做一次操作，也就是第一个线程tid = 0
+    { 
+        d_y[blockIdx.x] = x[0];                             //  每个block累加的值复制到输出的全局内存
     }
 }
 
 void __global__ reduce_shared(real *d_x, real *d_y)
 {
-    const int tid = threadIdx.x;
-    const int bid = blockIdx.x;
-    const int n = bid * blockDim.x + tid;
-    __shared__ real s_y[128];
-    s_y[tid] = (n < N) ? d_x[n] : 0.0;
-    __syncthreads();
+    const int tid = threadIdx.x;              //  某个block内的线程标号 index
+    const int bid = blockIdx.x;               //  某个block在网格grid内的标号 index
+    const int n = bid * blockDim.x + tid;      //  n 是某个线程的标号 index
+    __shared__ real s_y[128];                  //  分配共享内存空间，不同的block都有共享内存变量的副本
+    s_y[tid] = (n < N) ? d_x[n] : 0.0; //  每个block的共享内存变量副本，都用全局内存数组d_x来赋值，最后一个多出来的用0
+    __syncthreads();  //  线程块内部直接同步
 
-    for (int offset = blockDim.x >> 1; offset > 0; offset >>= 1)
+    for (int offset = blockDim.x >> 1; offset > 0; offset >>= 1) // 折半
     {
 
-        if (tid < offset)
+        if (tid < offset)           // 线程标号的index 不越界  折半
         {
-            s_y[tid] += s_y[tid + offset];
+            s_y[tid] += s_y[tid + offset];  //  某个block内的线程做折半规约
         }
-        __syncthreads();
+        __syncthreads();        // 同步block内部的线程
     }
 
-    if (tid == 0)
+    if (tid == 0)        // 某个block只做一次操作
     {
-        d_y[bid] = s_y[0];
+        d_y[bid] = s_y[0];     //  复制共享内存变量累加的结果到全局内存
     }
 }
 

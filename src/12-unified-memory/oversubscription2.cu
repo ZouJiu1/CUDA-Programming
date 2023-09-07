@@ -23,7 +23,8 @@ int main(void)
         CHECK(cudaMallocManaged(&x, memory_size));
         gpu_touch<<<(data_size - 1) / 1024 + 1, 1024>>>(x, data_size);
         CHECK(cudaGetLastError());
-        CHECK(cudaDeviceSynchronize());
+        CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
         CHECK(cudaFree(x));
         printf("Allocated %d GB unified memory with GPU touch.\n", n);
     }

@@ -38,7 +38,8 @@ int main(void)
     
     CHECK(cudaMemPrefetchAsync(z, M, cudaCpuDeviceId, NULL));
 
-    CHECK(cudaDeviceSynchronize());
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     check(z, N);
 
     CHECK(cudaFree(x));

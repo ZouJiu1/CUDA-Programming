@@ -16,7 +16,8 @@ int main(void)
 {
     const dim3 block_size(3, 6);
     hello_from_gpu<<<1, block_size>>>();
-    cudaDeviceSynchronize();
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 

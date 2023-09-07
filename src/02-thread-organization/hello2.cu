@@ -29,8 +29,10 @@ int main(void)
 {
     hello_from_gpu<<<1, 1>>>();
     CHECK(cudaGetLastError());
-    CHECK(cudaDeviceSynchronize());
-    cudaDeviceSynchronize();
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 

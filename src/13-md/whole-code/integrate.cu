@@ -112,7 +112,8 @@ void production
 )
 {
     float t_force = 0.0f;
-    CHECK(cudaDeviceSynchronize());
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     clock_t t_total_start = clock();
 
     FILE *fid_e = fopen("energy.txt", "w");
@@ -120,12 +121,14 @@ void production
     {  
         integrate(N, time_step, atom, 1);
 
-        CHECK(cudaDeviceSynchronize());
+        CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
         clock_t t_force_start = clock();
 
         find_force(N, MN, atom);
 
-        CHECK(cudaDeviceSynchronize());
+        CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
         clock_t t_force_stop = clock();
 
         t_force += float(t_force_stop - t_force_start) / CLOCKS_PER_SEC;
