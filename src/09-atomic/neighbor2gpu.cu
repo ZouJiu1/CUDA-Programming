@@ -141,7 +141,7 @@ void __global__ find_neighbor_no_atomic
     const int n1 = blockIdx.x * blockDim.x + threadIdx.x; // 拿到线程的标号index，表示第n1个碳 atoms 所在线程的
     if (n1 < N)
     {
-        int count = 0;  // record邻居的个数
+        int count = 0;  // record邻居的个数，放在某个线程寄存器内部，访问速度最好
         const real x1 = d_x[n1];  // 第n1个碳atoms的x坐标
         const real y1 = d_y[n1];  // 第n1个碳atoms的y坐标
         // n2 可以看作是行的，但保存数据用的是count，保证record是continuous的
