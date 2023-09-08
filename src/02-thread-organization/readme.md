@@ -110,7 +110,8 @@ __global__ void hello_from_gpu()
 int main(void)
 {
     hello_from_gpu<<<1, 1>>>();
-    cudaDeviceSynchronize();
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 ```
@@ -132,7 +133,8 @@ There must be an **execution configuration** like `<<<1, 1>>>` between the kerne
 
 * The `printf()` function from the C++ library `<stdio.h>` (can also be written as `<cstdio>`) can be directly used in kernels. However, one cannot use functions from the `<iostream>` library in kernels. The statement
 ```c++
-    cudaDeviceSynchronize();
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
 ```
 after the kernel call is used to **synchronize the host and the device**, making sure that the output stream for the `printf` function has been flushed before returning from the kernel to the host. Without a synchronization like this, the host will not wait for the completion of kernel execution and the message would not be output to console. `cudaDeviceSynchronize()` is one of the many CUDA runtime API functions we will learn during the course of this book. The need for synchronization here reflects the **asynchronous nature of kernel launching**, but we will not bother to elaborate on it until Chapter 11.
 
@@ -152,7 +154,8 @@ __global__ void hello_from_gpu()
 int main(void)
 {
     hello_from_gpu<<<2, 4>>>();
-    cudaDeviceSynchronize();
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 ```
@@ -193,7 +196,8 @@ __global__ void hello_from_gpu()
 int main(void)
 {
     hello_from_gpu<<<2, 4>>>();
-    cudaDeviceSynchronize();
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 ```
@@ -264,7 +268,8 @@ int main(void)
 {
     const dim3 block_size(2, 4);
     hello_from_gpu<<<1, block_size>>>();
-    cudaDeviceSynchronize();
+    cudaDeviceSynchronize();         
+   //同步host和device，核函数执行完以前，不会执行后续内容
     return 0;
 }
 ```

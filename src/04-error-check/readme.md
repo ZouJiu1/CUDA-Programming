@@ -58,7 +58,8 @@ We cannot use the above method to check errors for CUDA kernels, because there i
 
 ```c++
     CHECK(cudaGetLastError());
-    CHECK(cudaDeviceSynchronize());
+    CHECK(cudaDeviceSynchronize());         
+   //同步host和device，核函数执行完以前，不会执行后续内容
 ```
 
 The first statement can capture the last error before the second statement, and the second statement can synchronize the host and the device. The reason for using a synchronization between host and device is that kernel launching is asynchronous, which means that the host will continue to execute the statements after launching a CUDA kernel, not waiting for the completion of the kernel execution. The CUDA API function `cudaDeviceSynchronize` forces the host to wait for the completion of the kernel before moving on.
