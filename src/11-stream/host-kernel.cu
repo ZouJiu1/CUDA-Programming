@@ -99,15 +99,15 @@ void timing
         CHECK(cudaEventRecord(start));
         cudaEventQuery(start);
 
-        if (!overlap)
-        {
+        if (!overlap)   //  overlap = False时，首先是执行host端code，然后再执行核函数
+        { // 先后执行不能并发执行
             cpu_sum(h_x, h_y, h_z, N / ratio);
         }
-
+        
         gpu_sum<<<grid_size, block_size>>>(d_x, d_y, d_z);
 
-        if (overlap)
-        {
+        if (overlap) // overlap=True时，首先是执行核函数，然后不等待device执行完，紧跟着执行host
+        { // 发出执行核函数的指令以后，立刻执行这段host code，此时host和device可以并发执行
             cpu_sum(h_x, h_y, h_z, N / ratio);
         }
  

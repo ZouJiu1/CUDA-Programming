@@ -11,11 +11,15 @@
 const int NUM_REPEATS = 10;
 const int N1 = 1024;
 const int MAX_NUM_STREAMS = 30;
+/*
+N1是每个CUDA流处理的数组长度，MAX_NUM_STREAMS是指定的流个数，
+N就是总的需要分配的数值个数，也就是每个不同的CUDA流处理一段数据，数据不重叠
+*/
 const int N = N1 * MAX_NUM_STREAMS;
 const int M = sizeof(real) * N;
 const int block_size = 128;
 const int grid_size = (N1 - 1) / block_size + 1;
-cudaStream_t streams[MAX_NUM_STREAMS];
+cudaStream_t streams[MAX_NUM_STREAMS];            // 定义CUDA流
 
 void timing(const real *d_x, const real *d_y, real *d_z, const int num);
 
@@ -38,16 +42,16 @@ int main(void)
 
     for (int n = 0 ; n < MAX_NUM_STREAMS; ++n)
     {
-        CHECK(cudaStreamCreate(&(streams[n])));
+        CHECK(cudaStreamCreate(&(streams[n])));    // 产生CUDA流
     }
-
+    // CUDA流个数
     for (int num = 1; num <= MAX_NUM_STREAMS; ++num)
     {
-        timing(d_x, d_y, d_z, num);
+        timing(d_x, d_y, d_z, num);            //  在CUDA流内执行操作
     }
 
     for (int n = 0 ; n < MAX_NUM_STREAMS; ++n)
-    {
+    {            //  销毁CUDA流
         CHECK(cudaStreamDestroy(streams[n]));
     }
 
@@ -62,9 +66,9 @@ int main(void)
 void __global__ add(const real *d_x, const real *d_y, real *d_z)
 {
     const int n = blockDim.x * blockIdx.x + threadIdx.x;
-    if (n < N1)
+    if (n < N1) //处理的总长度是N1
     {
-        for (int i = 0; i < 100000; ++i)
+        for (int i = 0; i < 100000; ++i) //每个线程都会循环100000次
         {
             d_z[n] = d_x[n] + d_y[n];
         }
@@ -87,6 +91,12 @@ void timing(const real *d_x, const real *d_y, real *d_z, const int num)
         for (int n = 0; n < num; ++n)
         {
             int offset = n * N1;
+            /*
+            下面的code就是在指定的CUDA流内执行核函数，不同的核函数可以并发执行，
+            执行配置依次是：<<<grid_size, block_size,0, streams[n]>>>，
+            <<<grid size,  block size,  shared memory,  指定CUDA流>>>，
+            每个CUDA流执行的核函数使用一段数据，不同的核函数输入的数据不重叠。
+            */
             add<<<grid_size, block_size, 0, streams[n]>>>
             (d_x + offset, d_y + offset, d_z + offset);
         }
