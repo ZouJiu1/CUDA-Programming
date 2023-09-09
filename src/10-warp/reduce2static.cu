@@ -73,12 +73,12 @@ void __global__ reduce_cp(const real *d_x, real *d_y, const int N)
     }
 }
 
-__device__ real static_y[GRID_SIZE]; 
+__device__ real static_y[GRID_SIZE];  //  分配静态全局内存
 
 real reduce(const real *d_x)
 {
     real *d_y;
-    CHECK(cudaGetSymbolAddress((void**)&d_y, static_y));
+    CHECK(cudaGetSymbolAddress((void**)&d_y, static_y));    //  拿到静态全局内存变量的地址
     
     const int smem = sizeof(real) * BLOCK_SIZE;
 
