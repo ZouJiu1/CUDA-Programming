@@ -10,11 +10,11 @@ int main(void)
     {
         const size_t size = size_t(n) * 1024 * 1024 * 1024;
         uint64_t *x;
-#ifdef UNIFIED
+#ifdef UNIFIED    //统一内存超量分配
         CHECK(cudaMallocManaged(&x, size));
         CHECK(cudaFree(x));
         printf("Allocated %d GB unified memory without touch.\n", n);
-#else
+#else //只分配GPU内存
         CHECK(cudaMalloc(&x, size));
         CHECK(cudaFree(x));
         printf("Allocate %d GB device memory.\n", n);

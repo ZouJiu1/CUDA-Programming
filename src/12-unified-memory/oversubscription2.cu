@@ -21,7 +21,8 @@ int main(void)
         const size_t data_size = memory_size / sizeof(uint64_t);
         uint64_t *x;
         CHECK(cudaMallocManaged(&x, memory_size));
-        gpu_touch<<<(data_size - 1) / 1024 + 1, 1024>>>(x, data_size);
+        //用到内存了的，不再是预定地址空间，会报错
+        gpu_touch<<<(data_size - 1) / 1024 + 1, 1024>>>(x, data_size); 
         CHECK(cudaGetLastError());
         CHECK(cudaDeviceSynchronize());         
    //同步host和device，核函数执行完以前，不会执行后续内容

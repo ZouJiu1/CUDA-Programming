@@ -14,10 +14,12 @@ int main(void)
     const int N = 100000000;
     const int M = sizeof(double) * N;
     double *x, *y, *z;
+    //分配动态统一内存
     CHECK(cudaMallocManaged((void **)&x, M));
     CHECK(cudaMallocManaged((void **)&y, M));
     CHECK(cudaMallocManaged((void **)&z, M));
 
+    //给统一内存赋值
     for (int n = 0; n < N; ++n)
     {
         x[n] = a;
@@ -26,9 +28,10 @@ int main(void)
 
     const int block_size = 128;
     const int grid_size = N / block_size;
+    //执行核函数的
     add<<<grid_size, block_size>>>(x, y, z);
 
-    CHECK(cudaDeviceSynchronize());         
+    CHECK(cudaDeviceSynchronize()); //第一代统一内存需要
    //同步host和device，核函数执行完以前，不会执行后续内容
     check(z, N);
 

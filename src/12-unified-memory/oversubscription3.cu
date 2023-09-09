@@ -19,7 +19,7 @@ int main(void)
         size_t size = size_t(n) * 1024 * 1024 * 1024;
         uint64_t *x;
         CHECK(cudaMallocManaged(&x, size));
-        cpu_touch(x, size);
+        cpu_touch(x, size);  //cpu访问内存的，host内存不够的话，不会再访问GPU会直接退出
         CHECK(cudaFree(x));
         printf("Allocated %d GB unified memory with CPU touch.\n", n);
     }
