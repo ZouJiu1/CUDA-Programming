@@ -1,5 +1,15 @@
 [toc]
 
+## the blogs
+
+[https://zhuanlan.zhihu.com/p/654724006 CUDA 编程：基础与实践的阅读笔记和program理解 chapter 共享内存的合理使用，数组规约累加reduce求和](https://zhuanlan.zhihu.com/p/654724006)
+
+[https://www.zhihu.com/people/zoujiu1](https://www.zhihu.com/people/zoujiu1)
+
+[https://zoujiu.blog.csdn.net/](https://zoujiu.blog.csdn.net/)
+
+---------------------------------------------------------------------original readme-----------------------------------
+
 # English version
 
 I am writing a simplified English version (about half size of the Chinese version) of the book:
